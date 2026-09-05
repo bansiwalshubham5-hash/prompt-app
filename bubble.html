@@ -25,7 +25,6 @@
     justify-content: center;
     font-size: 32px;
     cursor: pointer;
-    -webkit-app-region: drag; /* lets you drag it anywhere on screen */
     transition: transform 0.12s ease;
   }
   #bubble:active {
@@ -36,14 +35,38 @@
 <body>
   <div id="bubble" title="Prompt Forge — click to open, right-click for options">🙂</div>
   <script>
-    const bubble = document.getElementById('bubble');
+const bubble = document.getElementById('bubble');
+        let dragging = false;
+        let moved = false;
+        let startScreenX = 0;
+        let startScreenY = 0;
 
-    // A plain click (no drag movement) still fires normally even inside
-    // a drag region — that's what opens/closes the panel.
-    bubble.addEventListener('click', () => {
-      window.bubbleAPI.togglePanel();
-    });
+        bubble.addEventListener('mousedown', (e) => {
+                dragging = true;
+                moved = false;
+                startScreenX = e.screenX;
+                startScreenY = e.screenY;
+        });
 
+        window.addEventListener('mousemove', (e) => {
+                if (!dragging) return;
+                const dx = e.screenX - startScreenX;
+                const dy = e.screenY - startScreenY;
+                if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
+                if (moved) {
+                          window.bubbleAPI.moveWindowBy(dx, dy);
+                          startScreenX = e.screenX;
+                          startScreenY = e.screenY;
+                }
+        });
+
+        window.addEventListener('mouseup', () => {
+                if (dragging && !moved) {
+                          window.bubbleAPI.togglePanel();
+                }
+                dragging = false;
+                moved = false;
+        });
     // Right-click for Hide / Quit
     bubble.addEventListener('contextmenu', (e) => {
       e.preventDefault();
