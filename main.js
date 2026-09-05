@@ -109,6 +109,11 @@ function createTray() {
 }
 
 ipcMain.on('toggle-panel', togglePanel);
+ipcMain.on('move-bubble-by', (event, dx, dy) => {
+    if (!bubbleWindow) return;
+    const [x, y] = bubbleWindow.getPosition();
+    bubbleWindow.setPosition(x + dx, y + dy);
+});
 ipcMain.on('show-context-menu', () => {
   Menu.buildFromTemplate([
     { label: 'Hide bubble', click: hideBubble },
