@@ -1,5 +1,6 @@
 const { app, BrowserWindow, Tray, Menu, screen, ipcMain } = require('electron');
 const path = require('path');
+const { autoUpdater } = require('electron-updater');
 
 const APP_URL = 'https://prompt-forge-shubham.lovable.app';
 const BUBBLE_SIZE = 72;
@@ -126,6 +127,12 @@ app.whenReady().then(() => {
   createBubble(); // visible on launch by default — this is the requirement
   createPanel();
   createTray();
+
+  try {
+        autoUpdater.checkForUpdatesAndNotify();
+  } catch (err) {
+        console.error('Auto-update check failed:', err);
+  }
 });
 
 // Don't quit when a window closes — keep living via the bubble/tray so it
