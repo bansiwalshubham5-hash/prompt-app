@@ -11,10 +11,14 @@
     "electron": "^31.0.0",
     "electron-builder": "^24.13.3"
   },
+    "dependencies": {
+          "electron-updater": "^6.1.7"
+    },
   "build": {
     "appId": "com.shubham.promptforge",
     "productName": "Prompt Forge",
     "files": ["main.js", "preload.js", "bubble.html", "assets/**/*"],
+        "publish": { "provider": "github", "owner": "bansiwalshubham5-hash", "repo": "prompt-app" },
     "win": {
       "target": "nsis",
       "icon": "assets/icon.png"
