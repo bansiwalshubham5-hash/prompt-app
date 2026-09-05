@@ -19,9 +19,7 @@
       "target": "nsis",
       "icon": "assets/icon.png"
     },
-    "mac": {
-      "target": "dmg",
-      "icon": "assets/icon.png"
+    "mac": {"target": "dmg"
     },
     "linux": {
       "target": "AppImage",
